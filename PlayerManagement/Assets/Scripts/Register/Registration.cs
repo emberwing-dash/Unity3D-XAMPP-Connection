@@ -6,10 +6,6 @@ using UnityEngine.UI;
 
 public class Registration : MonoBehaviour
 {
-    [Header("Server Settings")]
-    public string serverIP = "10.47.89.94";   // CHANGE WHEN NETWORK CHANGES
-    public int serverPort = 8888;
-    public string serverPath = "sqlconnect";
 
     [Header("UI")]
     public InputField nameField;
@@ -44,7 +40,11 @@ public class Registration : MonoBehaviour
         form.AddField("username", nameField.text);
         form.AddField("password", passwordField.text);
 
-        string url = $"http://{serverIP}:{serverPort}/{serverPath}/register.php";
+        string url = $"http://{ServerConfig.GetIP()}/sqlconnect/register.php";
+
+
+
+
         Debug.Log("Sending request to: " + url);
 
         UnityWebRequest www = UnityWebRequest.Post(url, form);
@@ -64,8 +64,9 @@ public class Registration : MonoBehaviour
         if (response == "0")
         {
             Debug.Log("User created successfully");
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene("MainMenu"); // FIXED
         }
+
         else
         {
             Debug.LogWarning("Registration failed: " + response);

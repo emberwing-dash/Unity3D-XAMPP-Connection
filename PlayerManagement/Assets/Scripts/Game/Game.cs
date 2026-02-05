@@ -7,11 +7,6 @@ using UnityEngine.UI;
 
 public class Game : MonoBehaviour
 {
-    [Header("Server Settings")]
-    public string serverIP = "10.47.89.94";   // CHANGE WHEN NETWORK CHANGES
-    public int serverPort = 8888;
-    public string serverPath = "sqlconnect";
-
 
     public Text playerDisplay;
     public Text scoreDisplay;
@@ -37,7 +32,10 @@ public class Game : MonoBehaviour
         form.AddField("name", DBManager.username);
         form.AddField("score", DBManager.score);
 
-        string url = $"http://{serverIP}:{serverPort}/{serverPath}/saveData.php";
+        string url = $"http://{ServerConfig.GetIP()}/sqlconnect/saveData.php";
+
+
+
         Debug.Log("Sending request to: " + url);
 
         UnityWebRequest www = UnityWebRequest.Post(url, form);

@@ -7,10 +7,7 @@ using UnityEngine.UI;
 
 public class Login : MonoBehaviour
 {
-    [Header("Server Settings")]
-    public string serverIP = "10.47.89.94";   // CHANGE WHEN NETWORK CHANGES
-    public int serverPort = 8888;
-    public string serverPath = "sqlconnect";
+    
 
     public InputField nameField;
     public InputField passwordField;
@@ -28,7 +25,10 @@ public class Login : MonoBehaviour
         form.AddField("username", nameField.text);
         form.AddField("password", passwordField.text);
 
-        string url = $"http://{serverIP}:{serverPort}/{serverPath}/login.php";
+        string url = $"http://{ServerConfig.GetIP()}/sqlconnect/login.php";
+
+
+
         Debug.Log("Sending request to: " + url);
 
         UnityWebRequest www = UnityWebRequest.Post(url, form);
@@ -41,7 +41,7 @@ public class Login : MonoBehaviour
             DBManager.username = nameField.text; //username
             DBManager.score = int.Parse(www.downloadHandler.text.Split('\t')[1]); //password
 
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene("MainMenu");
         }
         else
         {
